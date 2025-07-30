@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>عنوانك .. من تاريخ ميلادك 😱</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: 'Cairo', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    input[type="date"] {
+      padding: 0.8rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 1rem;
+      width: 100%;
+      max-width: 300px;
+    }
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      background-color: #0f0;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #00e600;
+    }
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.3rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>اكتب تاريخ ميلادك، واحنا هنكشف عنوانك! 😂📍</h1>
+  <input type="date" id="birthdate" />
+  <button onclick="revealLocation()">احسب مكاني 🤯</button>
+  <div class="result" id="result">بنجيب بياناتك من الأقمار الصناعية... ⏳</div>
+
+  <script>
+    async function revealLocation() {
+      const date = document.getElementById('birthdate').value;
+      const result = document.getElementById('result');
+
+      if (!date) {
+        result.textContent = "اختار تاريخ ميلادك الأول يا عم 🙄";
+        return;
+      }
+
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        const data = await res.json();
+
+        const location = `${data.city || "مدينة غامضة"}, ${data.region || "إقليم مش معروف"}, ${data.country_name || "دولة مش مفهومة"}`;
+        result.innerHTML = `من خلال تاريخ ميلادك عرفنا إنك ساكن في: <br><strong>${location}</strong> 😳`;
+      } catch (e) {
+        result.textContent = "النت عندك نايم، معرفناش نجيب العنوان 🤷🏻‍♂️";
+      }
+    }
+  </script>
+</body>
+</html>
